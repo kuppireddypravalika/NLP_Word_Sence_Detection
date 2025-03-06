@@ -1,0 +1,125 @@
+
+Question 1:
+
+1)My code is complete and it is giving the fold_accuracy and average accuracy as output. I followed the steps given in "Programming guidelines"
+
+------------------------------------
+2) plant.wsd
+------------------------------------
+
+3)C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Asignment 3>python wsd.py plant.wsd
+Fold Accuracies are:
+Fold 1: 92.11%
+Fold 2: 78.95%
+Fold 3: 73.68%
+Fold 4: 94.74%
+Fold 5: 77.78%
+Average Accuracy: 83.45%
+--------------------------------------
+
+**Note: I have an option in code to shuffle the folds randomly-(shuffle_data=False), but the above results are without shuffling. Because in programming guidelines it is given the folds are created serially( Fold 1 -plant.1000000 ,plant%factory,plant.1000001 plant%factory...)so followed the same. I can improve my accuracy with this (shuffle_data=True)
+
+(shuffle_data=True)--the below accuracy is when i used shuffle.
+C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Asignment 3>python wsd.py plant.wsd
+Fold Accuracies are:
+Fold 1: 81.58%
+Fold 2: 86.84%
+Fold 3: 92.11%
+Fold 4: 89.47%
+Fold 5: 88.89%
+Average Accuracy: 87.78%
+---------------------------------------
+4)Errors in my predicted senses:
+
+Exaple 1:"plant.1000200" my model predicted it as factory the true sense is "living".
+Reason : Few words in context like-[companies,work,rotating... ]which are more likey related to sense-fatory in tarin set.
+
+Example 2 : "plant.1000199" my model predicted  it as factory where the true sense is "living".
+Reason : There are few words in this context like- [Production-wise,Time Machine,Experiment,....] which are more likey related to the factory sense from the tarin set.
+
+Example 3:"plant.1000091" my model predicted it as factory where the true sense is "living"
+Reason : There is a word [root] which is related to sense living but the word root is appeared very rarely in the oveall dataset because of this the prob will be very less.
+
+
+Example 4 There are a few words like "environment" which are seen with both senses (factory and living). when the word has equal probability naive Bayes will randomly choose one which may be incorrect sometimes. In the plant.wsd we have such word [environment]
+
+Solutions:
+
+->In Naive bayes we are considering each word independently in the context .which may not able to understand the context properly ,we can consider bigrams,n-grams to overcome this .we can also include pos and word phrase to understand the meaning properly like "manufacturing plant" will give strong sense for factory and "water the plant"  will give sense living plant.
+
+->Imbalance in the dataset for senses: In the plant dataset overall sense for the factory is 102 and living is 86 .slightly factory is more dominant than living in the training set. when we are doing cross validation and if the folds we are training have more factory senses it will more likely select the factory sense in the test set. Naive Bayes may be biased towards the dominant sense sometimes. we can overcome this by doing re-sampling or adjusting prior probabilities in the train data to balance the influence of each sense.(In this plant.wsd we may see the less difference between two senses but if have more that will effect the model).
+
+->Stop words: There are words in context which are low information words and they can be frequently seen in both test and train data set. we can train the model by removing this stop words so that we can concentrate on the main words which have more information related to the sense.
+
+->Unseen words in train dataset: The words which are new in test set or rarely seen in train set which will have less pro or zero prob .I have added add-one smoothing in the code to overcome this. But we can also use other smoothing techniques like Witten-Bell or Good-Turing smoothing.
+
+
+====================================================
+
+Question 2:
+
+1)My code is complete and it is giving the fold_accuracy and average accuracy as output.I followed the steps given in "Programming guidelines"
+
+->bass.wsd
+
+C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Asignment 3>python wsd.py bass.wsd
+Fold Accuracies are:
+Fold 1: 72.73%
+Fold 2: 90.91%
+Fold 3: 90.91%
+Fold 4: 81.82%
+Fold 5: 94.74%
+Average Accuracy: 86.22%
+
+---------------------------------------------------
+
+crane.wsd
+
+->C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Asignment 3>python wsd.py crane.wsd
+Fold Accuracies are:
+Fold 1: 84.21%
+Fold 2: 78.95%
+Fold 3: 63.16%
+Fold 4: 94.74%
+Fold 5: 78.95%
+Average Accuracy: 80.00%
+-----------------------------------------------------
+
+motion.wsd
+
+->C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Asignment 3>python wsd.py motion.wsd
+Fold Accuracies are:
+Fold 1: 87.80%
+Fold 2: 87.80%
+Fold 3: 82.93%
+Fold 4: 92.68%
+Fold 5: 83.78%
+Average Accuracy: 87.00%
+
+------------------------------------------------------------------------
+Palm.wsd
+
+C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Asignment 3>python wsd.py palm.wsd
+Fold Accuracies are:
+Fold 1: 78.05%
+Fold 2: 78.05%
+Fold 3: 90.24%
+Fold 4: 82.93%
+Fold 5: 78.38%
+Average Accuracy: 81.53%
+
+--------------------------------------------------------------------------
+tank.wsd
+
+C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Asignment 3>python wsd.py tank.wsd
+Fold Accuracies are:
+Fold 1: 70.73%
+Fold 2: 65.85%
+Fold 3: 78.05%
+Fold 4: 80.49%
+Fold 5: 86.49%
+Average Accuracy: 76.32%
+
+=================================================================================================================================
+
+I have included all the output accuracy in sngle screenshot . 
